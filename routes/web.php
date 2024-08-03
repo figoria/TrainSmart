@@ -17,9 +17,8 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::get('exercises', function () {
-    return view('exercises');
-});
+Route::resource('exercises',App\Http\Controllers\ExerciseController::class);
+
 
 Auth::routes();
 
