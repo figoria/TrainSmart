@@ -42,7 +42,7 @@ class ExerciseController extends Controller
 
     public function show(Exercise $exercise)
     {
-        return view('exercise', compact('exercise'));
+        return view('details', compact('exercise'));
     }
 
 

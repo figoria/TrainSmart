@@ -7,7 +7,7 @@
                 <h2>maak nieuwe oefening</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary" href='home.blade.php'> Back</a>
+                <a class="btn btn-primary" href='./'> Back</a>
             </div>
         </div>
     </div>

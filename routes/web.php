@@ -20,6 +20,9 @@ Route::get('/', function () {
 
 Route::resource('exercises',App\Http\Controllers\ExerciseController::class);
 
+route::get('details',function () {
+    return view('details');
+});
 
 Auth::routes();
 

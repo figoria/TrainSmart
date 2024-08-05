@@ -14,5 +14,4 @@ class Exercise extends Model
         'muscle',
         'info'
     ];
-
 }

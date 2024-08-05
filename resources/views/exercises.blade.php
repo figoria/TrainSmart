@@ -23,20 +23,17 @@
             <th>ID</th>
             <th>Naam oefening</th>
             <th>Spiergroep</th>
-            <th>info</th>
-            <th width="280px">peop</th>
+            <th width="280px"></th>
         </tr>
         @foreach ($exercises as $exercise)
             <tr>
                 <td>{{ $exercise->id }}</td>
                 <td>{{ $exercise->name }}</td>
                 <td>{{ $exercise->muscle }}</td>
-                <td>{{ $exercise->info }}</td>
 
                 <td>
                     <form action="{{ route('exercises.destroy',$exercise->id) }}" method="POST">
                         <a class="btn btn-info" href="{{ route('exercises.show',$exercise->id) }}">Show</a>
-                        <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
                 </td>
             </tr>
