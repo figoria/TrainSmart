@@ -34,6 +34,8 @@
                     <form action="{{ route('exercises.destroy',$exercise->id) }}" method="POST">
                         <a class="btn btn-info" href="{{ route('exercises.show',$exercise->id) }}">Show</a>
                         <a class="btn btn-primary" href="{{ route('exercises.edit',$exercise->id) }}">Edit</a>
+                        @csrf
+                        @method('DELETE')
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
                 </td>
@@ -45,3 +47,4 @@
 
 
 @endsection
+

@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\AdminExerciseController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,9 +27,13 @@ route::get('details',function () {
     return view('details');
 });
 
-Auth::routes();
+route::get('edit',function () {
+    return view('edit');
+});
 
-Route::resource('admin-exercises',App\Http\Controllers\AdminExerciseController::class)->middleware('auth');
+
+Route::resource('admin-exercises', AdminExerciseController::class)->middleware('auth');
+
 
 Route::get('/account', [AccountController::class, 'edit'])->name('account.edit')->middleware('auth');
 
@@ -36,3 +42,4 @@ Route::put('/account', [AccountController::class, 'update'])->name('account.upda
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
+Auth::routes();

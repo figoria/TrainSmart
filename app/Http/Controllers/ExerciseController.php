@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\exercise;
+use App\Models\Exercise;
 use Illuminate\Http\Request;
 
 class ExerciseController extends Controller
@@ -27,16 +27,14 @@ class ExerciseController extends Controller
         //validate the input
         $request->validate([
             'name' => 'required',
-            'muscle' => 'required',
-            'info' => 'required'
-
+            'muscle' => 'required'
         ]);
 
         //create a new exercise
         Exercise::create($request->all());
 
         //redirect the user and send message
-        return redirect()->route('exercises.index');
+        return redirect()->route('admin-exercises.index');
     }
 
 
@@ -60,16 +58,14 @@ class ExerciseController extends Controller
         //validate the input
         $request->validate([
             'name' => 'required',
-            'muscle' => 'required',
-            'info' => 'required'
-
+            'muscle' => 'required'
         ]);
 
         //create a new exercise
         $exercise->update($request->all());
 
         //redirect the user and send message
-        return redirect()->route('exercises.index');
+        return redirect()->route('admin-exercises.index');
     }
 
     /**
@@ -79,7 +75,7 @@ class ExerciseController extends Controller
     {
         $exercise->delete();
 
-        return redirect()->route('exercises.index');
+        return redirect()->route('admin-exercises.index');
     }
 }
 
