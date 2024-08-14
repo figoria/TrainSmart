@@ -23,17 +23,16 @@ Route::get('/', function () {
 Route::resource('exercises',App\Http\Controllers\ExerciseController::class);
 
 
-route::get('details',function () {
-    return view('details');
-});
+route::get('exercises/{exercise}',[ExerciseController::class,'show'])->name('exercises.show');
 
 route::get('edit',function () {
     return view('edit');
 });
 
 
-Route::resource('admin-exercises', AdminExerciseController::class)->middleware('auth');
+Route::get('/exercises/search', [ExerciseController::class, 'search'])->name('exercises.search');
 
+Route::resource('admin-exercises', AdminExerciseController::class)->middleware('auth');
 
 Route::get('/account', [AccountController::class, 'edit'])->name('account.edit')->middleware('auth');
 

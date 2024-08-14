@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Exercise;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,9 @@ class ExerciseController extends Controller
     {
         $exercises = exercise::latest()->paginate(6);
 
-        return view('exercises', compact('exercises'))->with(request()->input('page'));
+        return view('exercises', [
+            'exercises' => exercise::latest()->filter(request(['search']))->get()
+        ]);
     }
 
     public function create()
@@ -77,5 +80,7 @@ class ExerciseController extends Controller
 
         return redirect()->route('admin-exercises.index');
     }
+
+
 }
 

@@ -15,6 +15,14 @@
         </div>
     @endif
 
+
+    <form method="get" action="#">
+        <div class="input-group">
+            <input type="text" class="form-control" name="search" placeholder="Zoeken..." value="{{request('search')}}">
+            <button type="submit" class="btn btn-primary">Zoek</button>
+        </div>
+    </form>
+
     <table class="table table-bordered">
         <tr>
             <th>ID</th>
@@ -37,7 +45,6 @@
         @endforeach
 
     </table>
-    {{ $exercises->links() }}
 
 
 @endsection
