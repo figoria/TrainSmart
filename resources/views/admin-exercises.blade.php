@@ -23,12 +23,12 @@
             <th>ID</th>
             <th>Naam oefening</th>
             <th>Spiergroep</th>
-            <th width="280px">Action</th>
+            <th width="280px">opties</th>
         </tr>
-        @foreach ($exercises as $exercise)
+        @foreach ($data as $exercise)
             <tr>
                 <td>{{ $exercise->id }}</td>
-                <td>{{ $exercise->name }}</td>
+                <td>{{ $exercise->title }}</td>
                 <td>{{ $exercise->muscle }}</td>
                 <td>
                     <form action="{{ route('exercises.destroy',$exercise->id) }}" method="POST">
@@ -37,6 +37,14 @@
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                    <form id="form" action="{{route('exercises.softDeleteOrRestore', $exercise)}}" method="POST">
+                        @csrf
+                        <div class="form-check form-switch">
+                            <label class="form-label">Exercise status:@if(!$exercise->trashed()) <strong>On</strong> @else <strong>Off</strong> @endif</label>
+                            <button class="form-control btn @if(!$exercise->trashed()) btn-danger @else btn-primary @endif" type="submit"
+                                    name="on">Switch @if(!$exercise->trashed()) off @else on @endif</button>
+                        </div>
                     </form>
                 </td>
             </tr>

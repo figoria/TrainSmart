@@ -16,7 +16,7 @@
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Naam oefening:</strong>
-                {{ $exercise->name }}
+                {{ $exercise->title }}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
@@ -30,6 +30,13 @@
                 <strong>uitleg:</strong>
                 {{ $exercise->info }}
             </div>
+        </div>
+        <div class="flex-row justify-content-start">
+            @foreach($exercise->tags as $tag)
+                <span class="border rounded p-2 m-0 bg-dark-subtle me-3">
+                                    {{$tag->name}}
+                                </span>
+            @endforeach
         </div>
     </div>
 @endsection

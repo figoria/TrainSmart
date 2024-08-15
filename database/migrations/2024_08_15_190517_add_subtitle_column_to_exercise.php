@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('exercises', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->string('muscle');
-            $table->string('info');
-            $table->timestamps();
+        Schema::table('exercises', function (Blueprint $table) {
+            $table->string('subtitle', 255)->nullable()->after('title');
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('exercises');
+        Schema::table('exercises', function (Blueprint $table) {
+            $table->dropColumn('subtitle');
+        });
     }
 };

@@ -44,7 +44,8 @@ class User extends Authenticatable
     ];
 
 
-    public function exercises(){
+    public function exercises (): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
         return $this->hasMany(Exercise::class);
     }
 }

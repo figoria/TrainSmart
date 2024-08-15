@@ -31,7 +31,7 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Naam oefening:</strong>
-                    <input type="text" name="name" value="{{ $exercise->name }}" class="form-control" placeholder="Naam oefening">
+                    <input type="text" name="title" value="{{ $exercise->title }}" class="form-control" placeholder="Naam oefening">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
@@ -45,6 +45,18 @@
                     <strong>Uitleg:</strong>
                     <textarea class="form-control" name="info" placeholder="Uitleg"> {{ $exercise->info }}</textarea>
                 </div>
+            </div>
+
+            <h3 class="mt-2">Category's</h3>
+            <div class="row">
+                @foreach($tags as $tag)
+                    <div>
+                        <input class="form-check-input" type="checkbox" name="tags[]" id="tag{{$tag->id}}"
+                               value="{{$tag->id}}" @if($exercise->tags->contains($tag->id)) checked @endif>
+                        <label class="form-check-label" for="tag{{$tag->id}}">{{$tag->name}}</label>
+                    </div>
+                @endforeach
+                @error('tags') <div class="alert alert-danger">{{$message}}</div> @enderror
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                 <button type="submit" class="btn btn-primary">Submit</button>

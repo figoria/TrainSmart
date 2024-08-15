@@ -11,11 +11,16 @@ class AdminExerciseController extends Controller
     public function index()
     {
         $exercises = exercise::latest()->paginate(6);
-
-        return view('admin-exercises', compact('exercises'))->with(request()->input('page'));
+        $data = Exercise::withTrashed()->get();
+        return view('admin-exercises', compact('exercises', 'data'));
     }
 
-
+    public function restore($id)
+    {
+        $data = Exercise::withTrashed()->find($id);
+        $data->restore();
+        return redirect()->route('admin-exercises.index');
+    }
 
 
 

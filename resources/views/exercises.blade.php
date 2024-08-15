@@ -15,11 +15,23 @@
         </div>
     @endif
 
-
-    <form method="get" action="#">
+    <form method="GET" action="{{ route('exercises.search') }}">
         <div class="input-group">
-            <input type="text" class="form-control" name="search" placeholder="Zoeken..." value="{{request('search')}}">
-            <button type="submit" class="btn btn-primary">Zoek</button>
+                <input type="text" class="form-control" placeholder="Zoeken..."
+                       name="search" value="{{Request('search')}}">
+            <div class="col">
+                <button type="submit" class="btn btn-primary">Zoek</button>
+            </div>
+        </div>
+        <div class="row mt-2 flex-wrap">
+            <p class="col m-0 p-0">Filters:</p>
+            @foreach($tags as $tag)
+                <div class="col p-0">
+                    <input class="form-check-input" type="checkbox" name="filters[]" id="tag{{$tag->id}}"
+                           value="{{$tag->id}}" @if(collect($filters)->contains($tag->id)) checked @endif>
+                    <label class="form-check-label" for="tag{{$tag->id}}">{{$tag->name}}</label>
+                </div>
+            @endforeach
         </div>
     </form>
 
@@ -33,7 +45,7 @@
         @foreach ($exercises as $exercise)
             <tr>
                 <td>{{ $exercise->id }}</td>
-                <td>{{ $exercise->name }}</td>
+                <td>{{ $exercise->title }}</td>
                 <td>{{ $exercise->muscle }}</td>
 
                 <td>
@@ -45,6 +57,7 @@
         @endforeach
 
     </table>
+    {{ $exercises->links() }}
 
 
 @endsection

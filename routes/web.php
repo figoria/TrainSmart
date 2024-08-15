@@ -30,7 +30,11 @@ route::get('edit',function () {
 });
 
 
-Route::get('/exercises/search', [ExerciseController::class, 'search'])->name('exercises.search');
+Route::get('/exercises/search', [ExerciseController::class, 'search'])->name('exercises.search')->middleware('exercisecount');
+
+Route::post('exercises/softDeleteOrRestore/{id}', [ExerciseController::class, 'softDeleteOrRestore'])->name('exercises.softDeleteOrRestore')->middleware('auth');
+
+Route::get('admin-exercises/restore/{exercise}', [AdminExerciseController::class, 'restore'])->name('admin-exercises.restore');
 
 Route::resource('admin-exercises', AdminExerciseController::class)->middleware('auth');
 
