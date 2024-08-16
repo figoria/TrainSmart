@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="row mt-2 flex-wrap">
-            <p class="col m-0 p-0">Filters:</p>
+            <p class="col m-0 p-0"></p>
             @foreach($tags as $tag)
                 <div class="col p-0">
                     <input class="form-check-input" type="checkbox" name="filters[]" id="tag{{$tag->id}}"
@@ -57,7 +57,5 @@
         @endforeach
 
     </table>
-    {{ $exercises->links() }}
-
 
 @endsection

@@ -10,12 +10,12 @@ class ExerciseController extends Controller
 {
 
 
+
     public function index()
     {
         $tags = Tag::all();
         $filters = [];
         $exercises = Exercise::with('tags')->get();
-        $exercises = exercise::latest()->paginate(6);
         return view('exercises', compact('exercises', 'tags', 'filters'));
     }
 
@@ -40,6 +40,8 @@ class ExerciseController extends Controller
         $exercise->title = $request->input('title');
         $exercise->muscle = $request->input('muscle');
         $exercise->info = $request->input('info');
+        $exercise->user_id = \Auth::user()->id;
+
 
 
         if ($exercise->save()) {
@@ -59,8 +61,11 @@ class ExerciseController extends Controller
 
     public function edit(Exercise $exercise)
     {
-        $tags = Tag::all();
-        return view('edit', compact('exercise', 'tags'));
+        if (\Auth::user()->id === $exercise->user_id) {
+            $tags = Tag::all();
+            return view('edit', compact('exercise'), compact('tags'));
+        }
+        return redirect()->route('admin-exercises.index');
 
     }
 
@@ -96,23 +101,20 @@ class ExerciseController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(Exercise $exercise)
-    {
-        $exercise->tags()->detach();
-        $exercise->forcedelete();
-
+    {if (\Auth::user()->id === $exercise->user_id) {
+            $exercise->tags()->detach();
+            $exercise->forceDelete();
+        }
         return redirect()->route('admin-exercises.index');
     }
 
 
-    public function softDeleteOrRestore(int $id, Request $request)
+    public function switch (int $id, Request $request)
     {
-
         $exercise = Exercise::withTrashed()->find($id);
-        if ($exercise->trashed()) {
-            $exercise->restore();
+        if ($exercise->trashed()) {$exercise->restore();
             return redirect()->route('admin-exercises.index');
-        } else {
-            $exercise->delete();
+        } else {$exercise->delete();
             return redirect()->route('admin-exercises.index');
         }
     }
@@ -120,31 +122,27 @@ class ExerciseController extends Controller
     public function search(Request $request)
     {
         $tags = Tag::all();
+        $filters = $request->input('filters');
         $request->validate([
             'search' => 'max:255',
             'filters' => 'exists:tags,id'
         ]);
-        $filters = $request->input('filters');
 
-        if (collect($filters)->count() === 0) {
-            $exercises = Exercise::where('muscle', 'LIKE', '%' . $request->input('search') . '%')
-                ->orWhere('subtitle', 'LIKE', '%' . $request->input('search') . '%')->get();
+        if (collect($filters)->count() === 0) { $exercises = Exercise::where('title', 'LIKE', '%' . $request->input('search') . '%')
+                ->orWhere('muscle', 'LIKE', '%' . $request->input('search') . '%')->get();
             return view('exercises', compact('exercises', 'tags', 'filters'));
-        } elseif ($request->input('search') === null) {
-            $exercises = Exercise::whereHas('tags', function ($query) use ($filters) {
-                $query->whereIn('tag_id', $filters);
-            })->get();
+        } elseif ($request->input('search') === null) { $exercises = Exercise::whereHas('tags', function ($query) use ($filters) { $query->whereIn('tag_id', $filters); })->get();
             return view('exercises', compact('exercises', 'tags', 'filters'));
-        } else {
-            $exercises = Exercise::whereHas('tags', function ($query) use ($filters) {
-                $query->whereIn('tag_id', $filters);
-            });
+        } else { $exercises = Exercise::whereHas('tags', function ($query) use ($filters) { $query->whereIn('tag_id', $filters); });
 
-            $exercises->where('title', 'LIKE', '%' . $request->input('search') . '%')
-                ->orWhere('muscle', 'LIKE', '%' . $request->input('search') . '%')
-                ->get();
             return view('exercises', compact('exercises', 'tags', 'filters'));
         }
+    }
+
+
+    public function notEnough()
+    {
+        return view('not-enough');
     }
 
 }

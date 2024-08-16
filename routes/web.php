@@ -16,9 +16,6 @@ use App\Http\Controllers\AdminExerciseController;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
 
 Route::resource('exercises',App\Http\Controllers\ExerciseController::class);
 
@@ -30,9 +27,10 @@ route::get('edit',function () {
 });
 
 
-Route::get('/exercises/search', [ExerciseController::class, 'search'])->name('exercises.search')->middleware('exercisecount');
+Route::get('/exercises/', [ExerciseController::class, 'search'])->name('exercises.search');
 
-Route::post('exercises/softDeleteOrRestore/{id}', [ExerciseController::class, 'softDeleteOrRestore'])->name('exercises.softDeleteOrRestore')->middleware('auth');
+
+Route::post('exercises/switch/{id}', [ExerciseController::class, 'switch'])->name('exercises.switch')->middleware('auth')->middleware('exercisecount');
 
 Route::get('admin-exercises/restore/{exercise}', [AdminExerciseController::class, 'restore'])->name('admin-exercises.restore');
 
@@ -42,7 +40,8 @@ Route::get('/account', [AccountController::class, 'edit'])->name('account.edit')
 
 Route::put('/account', [AccountController::class, 'update'])->name('account.update')->middleware('auth');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::get('/not-enough', [ExerciseController::class, 'notEnough'])->name('not-enough');
 
 Auth::routes();

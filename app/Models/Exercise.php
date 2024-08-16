@@ -4,31 +4,27 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 class Exercise extends Model
 {
     use HasFactory;
-
+    use SoftDeletes;
     protected $fillable = [
-        'name',
+        'title',
         'muscle',
         'info'
     ];
 
-    public function scopeFilter($query, array $filters)
+
+    public function tags(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        if ($filters['search'] ?? false){
-            $query
-                ->where('name', 'like', '%' . request('search') . '%')
-                ->orWhere('muscle', 'like', '%' . request('search') . '%');
-
-        }
-    }
-    public function category(){
-        return $this->belongsTo(Category::class);
+        return $this->belongsToMany(Tag::class);
     }
 
-    public function user(){
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
         return $this->belongsTo(User::class);
     }
 
