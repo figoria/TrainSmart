@@ -39,9 +39,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Azure Login
-        uses: Azure/login@v2.1.1
-
       - name: Setup PHP
         uses: shivammathur/setup-php@7c0b4c8c8ebed23eca9ec2802474895d105b11bc
         with:
@@ -92,6 +89,9 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: php-app
+
+      - name: Azure Login
+        uses: Azure/login@v2.1.1
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
